@@ -55,11 +55,13 @@ int createHuffmanTree(node * HuffmanTree, char *c, int * w, int n ){
 		HuffmanTree[i].weight = w[i];
 		HuffmanTree[i].ch = c[i];
 		HuffmanTree[i].parent = -1;
+		HuffmanTree[i].rChild = -1;
+		HuffmanTree[i].lChild = -1;
 	}
 	// initial tree node	
 	for ( ; i< 2*n-1; i ++){
-		HuffmanTree[i].rChild = 0;
-		HuffmanTree[i].lChild = 0;
+		HuffmanTree[i].rChild = -1;
+		HuffmanTree[i].lChild = -1;
 		HuffmanTree[i].parent = -1;
 	}
 	printf("\n");
@@ -106,6 +108,22 @@ void HuffmanCoding(node * HuffmanTree, char ** HuffmanCode, int n){
 	
 }
 
+void HuffmanDecoding(node * HuffmanTree,char *codes,int n,int codeLength){
+	int i = 0;
+	int nodeIndex =2*n-2;
+	for(i = 0; i< codeLength; i++){
+		char code = codes[i];
+		if(HuffmanTree[nodeIndex].lChild==-1){
+			printf("%c",HuffmanTree[nodeIndex].ch);
+			nodeIndex = 2*n-2;
+		}
+		if(code=='1'){
+			nodeIndex = HuffmanTree[nodeIndex].rChild;
+		}else{
+			nodeIndex = HuffmanTree[nodeIndex].lChild;
+		}
+	}
+}
 int main(){
 	char c[9] = {'a','b','c','d','e','f','g','h','i'};
 	int w[9] = {1,2,3,4,5,6,7,8,9};
@@ -120,5 +138,10 @@ int main(){
 	for( ; i<n ; i++){
 		printf("%s\n",HuffmanCode[i] );
 	}
+	char encodeText[27] = "10000100001001100011000100";
+	HuffmanDecoding(HuffmanTree,encodeText,n,26);
+	printf("\n");
 	return 0;
 } 
+
+
