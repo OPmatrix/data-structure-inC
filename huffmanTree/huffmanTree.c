@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int MAXSIZE = 50;
 typedef struct {
@@ -73,12 +74,37 @@ int createHuffmanTree(node * HuffmanTree, char *c, int * w, int n ){
 		HuffmanTree[i].weight = HuffmanTree[x].weight + HuffmanTree[y].weight;
 		i++;
 	}
-	for (i=0 ; i< 2*n-1; i ++){
-		printf("%d ",HuffmanTree[i].weight);
-	}
+	
 	return 1;
 }
 
+void HuffmanCoding(node * HuffmanTree, char ** HuffmanCode, int n){
+	char * temp = (char *)malloc(n* sizeof(char));
+
+	temp[n-1] = '\0';//termianl char
+	int i = 0;
+	printf("\n");
+	for( ; i<n ; i++){
+		int j = i;
+		int start = n-2;
+
+		while(HuffmanTree[j].parent!=-1){
+			int p ;
+			p =  HuffmanTree[j].parent;
+			if(HuffmanTree[p].lChild==j){
+				temp[start] = '0';
+			}else{
+				temp[start] = '1';
+			}
+			
+			start --;
+			j = p;			
+		}
+		HuffmanCode[i] = malloc((n-start-2)*sizeof(char));
+		strcpy(HuffmanCode[i],&temp[start+1]);
+	}
+	
+}
 
 int main(){
 	char c[9] = {'a','b','c','d','e','f','g','h','i'};
@@ -88,5 +114,11 @@ int main(){
 	node * HuffmanTree;
 	HuffmanTree = (node *)malloc((n*2-1)*sizeof(node));
 	createHuffmanTree(HuffmanTree, c, w, 9);
+	char **HuffmanCode;
+	HuffmanCode = (char **)malloc(n*sizeof(char *));
+	HuffmanCoding(HuffmanTree, HuffmanCode, 9);
+	for( ; i<n ; i++){
+		printf("%s\n",HuffmanCode[i] );
+	}
 	return 0;
 } 
