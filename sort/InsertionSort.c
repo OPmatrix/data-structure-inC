@@ -9,17 +9,29 @@ void swap(int *a, int *b){
 	*a = *b;
 	*b = temp;
 }
-
+/**
+插入排序
+	时间复杂度O(n^2) 空间复杂度O(1)
+	最好情况,有序 O(n) 最差情况,逆序:比较 n/2*(n-1)  交换(n+3)*(n-2)/2
+**/
 void InsertionSort(int *data,int n){
 	for(int i = 1; i < n; i++){
-		for(int j = i; j > 0; j--){
-			if(data[j]<data[j-1]){
-				swap(&data[j],&data[j-1]);
+		int temp = data[i];
+		int j = i;
+		for( ; j > 0; j--){
+			if(temp<data[j-1]){
+				data[j]=data[j-1];
+			}else{
+				break;
 			}
 		}
+		data[j] = temp;
 	}
 }
 
+/**
+
+**/
 void BubbbleSort(int *data,int n){
 	for(int i = n-1 ; i > 0; i--){
 		int goFlag = 1;
@@ -34,7 +46,17 @@ void BubbbleSort(int *data,int n){
 		}
 	}
 }
+/**
+希尔排序（缩小增量排序）
+	平均时间复杂度O(n^1.3)
+**/
+// void HillSort(int *data,int n){
+// 	int helpArray = [5,3,1];
+// 	for(int i = 0; i < 3; i++){
+// 		int increment = helpArray;
+// 	}
 
+// }
 void testSort(void Sort(int *,int),int *data,int n){
 	
 	Sort(data,n);
